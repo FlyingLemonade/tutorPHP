@@ -6,8 +6,11 @@ if (isset($_POST["login"])) {
   $username = $_POST["username"];
   $password = $_POST["password"];
 
-  $result = mysqli_query($conn, " SELECT * FROM user_admin WHERE
-  username = '$username'");
+
+  $query = $conn->prepare(" SELECT * FROM user_admin WHERE username = ?");
+  $query->bind_param("s", $username);
+  $query->execute();
+  $result = $query->get_result();
 
   if (mysqli_num_rows($result) === 1) {
 
